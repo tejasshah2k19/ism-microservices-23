@@ -3,6 +3,7 @@ package com.service;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,18 +15,19 @@ import com.vo.UserVo;
 @Service
 public class AdminService {
 
-	public List<UserVo> getAllUsers() {
-		RestTemplate restTemplate = new RestTemplate();
+	@Autowired
+	RestTemplate restTemplate;
 
-		ResponseEntity<UserVo[]> resp = restTemplate.getForEntity("http://localhost:9999/getallusers", UserVo[].class);
+	public List<UserVo> getAllUsers() {
+
+		ResponseEntity<UserVo[]> resp = restTemplate.getForEntity("http://ADMIN-SERVICE/getallusers", UserVo[].class);
 		List<UserVo> users = Arrays.asList(resp.getBody());
 
 		return users;
 	}
 
 	public List<UserVo> getAllUsers2() {
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<List<UserVo>> response = restTemplate.exchange("http://localhost:9999/getallusers",
+		ResponseEntity<List<UserVo>> response = restTemplate.exchange("http://ADMIN-SERVICE/getallusers",
 				HttpMethod.GET, null, new ParameterizedTypeReference<List<UserVo>>() {
 				});
 		List<UserVo> list = response.getBody();
