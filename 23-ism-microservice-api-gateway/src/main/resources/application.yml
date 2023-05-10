@@ -1,0 +1,30 @@
+server:
+      port: 9212
+   
+spring:
+      application:
+                  name: API-GATEWAY
+      cloud:
+          gateway:
+                routes:
+                      - id:  ADMIN-SERVICE
+                        uri: lb://ADMIN-SERVICE
+                        predicates:
+                            - Path=/admin/**
+                      - id:  FACULTY-SERVICE
+                        uri: lb://FACULTY-SERVICE
+                        predicates:
+                            - Path=/faculty/**
+
+                
+eureka:
+      client:
+            register-with-eureka: true
+            fetch-registry: true
+            service-url:
+                        default-zone: http://localhost:8761/eureka
+            instance:
+                    hostname: localhost
+                    
+
+        
